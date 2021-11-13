@@ -18,6 +18,7 @@ type
       Grid: TStringGrid; vFinanciamento: TFinanciamento);
   public
     procedure New;
+    procedure ApagarLinha(Grade: TStringGrid; Linha: Integer);
     function List(vFinanciamento: TFinanciamento; Grid: TStringGrid): Boolean;
     property Model: TFinanciamento read FModel write SetModel;
     class procedure CalculaJuros(var vFinanciamento: TFinanciamento);
@@ -57,7 +58,24 @@ begin
     vFinanciamento.Parcelas[i].Montante := valorMontante;
     vFinanciamento.Parcelas[i].Acumulado := aux;
 
+  end;
 
+end;
+
+procedure TControllerFinanciamento.ApagarLinha(Grade: TStringGrid;
+  Linha: Integer);
+var
+  i: Integer;
+begin
+
+  with Grade do
+  begin
+    for i := Linha to RowCount do
+      Rows[i] := Rows[i + 1];
+    While RowCount > Linha Do
+    Begin
+      RowCount := RowCount - 1;
+    End;
   end;
 
 end;
@@ -98,6 +116,7 @@ begin
   i := 0;
   pagamento := 0;
   Acumulado := 0;
+  ApagarLinha(Grid, 1);
 
   repeat
 
